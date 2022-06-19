@@ -1,0 +1,24 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: order-service
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        username: nacos
+        password: nacos
+        namespace: public
+        ephemeral: false #永久实例，哪怕是宕机了nacos也不会删除该实例
+stock-service:
+  ribbon:
+    #    NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule  # 使用配置文件的方式设置权重方式的负载均衡策略
+    NFLoadBalancerRuleClassName: com.jiang.springcloud.ribbon.rule.CustomRule  # 自定义负载均衡器
+
+ribbon:
+  eager-load:
+    # 开启ribbon集合加载
+    enabled: true
+    # 配置stock-service使用ribbon饥饿加载，多个使用，分割
+    clients: stock-service
